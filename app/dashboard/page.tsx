@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { StoreHeader } from "@/components/store/store-header"
 import Link from "next/link"
-import { Package, User, ShoppingCart, CreditCard } from "lucide-react"
+import { Package, User, ShoppingCart, CreditCard, TrendingUp, Clock, Star, Gift } from "lucide-react"
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -47,101 +47,132 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <StoreHeader />
 
       <main className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Welcome back, {profile?.full_name || "Customer"}!</h1>
-          <p className="text-muted-foreground">Manage your account and track your orders</p>
+        {/* Welcome Section */}
+        <div className="mb-12 text-center">
+          <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-primary to-purple-600 rounded-full flex items-center justify-center">
+            <User className="h-10 w-10 text-white" />
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-text">
+            Welcome back, {profile?.full_name || "Customer"}!
+          </h1>
+          <p className="text-xl text-muted-foreground">
+            Manage your account and track your shopping journey
+          </p>
         </div>
 
         {/* Quick Stats */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
-          <Card>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-12">
+          <Card className="glass-effect border-0 shadow-lg hover-lift">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
-              <Package className="h-4 w-4 text-muted-foreground" />
+              <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                <Package className="h-5 w-5 text-primary" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{ordersCount || 0}</div>
+              <div className="text-3xl font-bold">{ordersCount || 0}</div>
+              <p className="text-xs text-muted-foreground mt-1">Lifetime orders</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass-effect border-0 shadow-lg hover-lift">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Cart Items</CardTitle>
-              <ShoppingCart className="h-4 w-4 text-muted-foreground" />
+              <div className="w-10 h-10 bg-green-500/10 rounded-full flex items-center justify-center">
+                <ShoppingCart className="h-5 w-5 text-green-600" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{cartCount || 0}</div>
+              <div className="text-3xl font-bold">{cartCount || 0}</div>
+              <p className="text-xs text-muted-foreground mt-1">Items in cart</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass-effect border-0 shadow-lg hover-lift">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Account Status</CardTitle>
-              <User className="h-4 w-4 text-muted-foreground" />
+              <div className="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center">
+                <Star className="h-5 w-5 text-blue-600" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">Active</div>
+              <div className="text-3xl font-bold">Premium</div>
+              <p className="text-xs text-muted-foreground mt-1">Active member</p>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass-effect border-0 shadow-lg hover-lift">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Member Since</CardTitle>
-              <CreditCard className="h-4 w-4 text-muted-foreground" />
+              <div className="w-10 h-10 bg-purple-500/10 rounded-full flex items-center justify-center">
+                <Clock className="h-5 w-5 text-purple-600" />
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="text-sm font-bold">{new Date(data.user.created_at).getFullYear()}</div>
+              <div className="text-3xl font-bold">{new Date(data.user.created_at).getFullYear()}</div>
+              <p className="text-xs text-muted-foreground mt-1">Year joined</p>
             </CardContent>
           </Card>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Quick Actions */}
-          <Card>
+          <Card className="glass-effect border-0 shadow-lg">
             <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
+              <CardTitle className="text-2xl flex items-center gap-2">
+                <TrendingUp className="h-6 w-6" />
+                Quick Actions
+              </CardTitle>
             </CardHeader>
-            <CardContent className="grid gap-4">
-              <Button asChild className="w-full justify-start h-auto p-4">
-                <Link href="/orders" className="flex items-center gap-3">
-                  <Package className="h-5 w-5" />
+            <CardContent className="space-y-4">
+              <Button asChild className="w-full justify-start h-16 p-6 rounded-xl bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90">
+                <Link href="/orders" className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                    <Package className="h-6 w-6 text-white" />
+                  </div>
                   <div className="text-left">
-                    <div className="font-medium">View Orders</div>
-                    <div className="text-sm text-muted-foreground">Track your order history</div>
+                    <div className="font-semibold text-white">View Orders</div>
+                    <div className="text-sm text-white/80">Track your order history</div>
                   </div>
                 </Link>
               </Button>
 
-              <Button asChild variant="outline" className="w-full justify-start h-auto p-4 bg-transparent">
-                <Link href="/profile" className="flex items-center gap-3">
-                  <User className="h-5 w-5" />
+              <Button asChild variant="outline" className="w-full justify-start h-16 p-6 rounded-xl bg-transparent hover:bg-muted/50">
+                <Link href="/profile" className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                    <User className="h-6 w-6 text-primary" />
+                  </div>
                   <div className="text-left">
-                    <div className="font-medium">Edit Profile</div>
-                    <div className="text-sm text-muted-foreground">Update your personal information</div>
+                    <div className="font-semibold">Edit Profile</div>
+                    <div className="text-sm text-muted-foreground">Update your information</div>
                   </div>
                 </Link>
               </Button>
 
-              <Button asChild variant="outline" className="w-full justify-start h-auto p-4 bg-transparent">
-                <Link href="/cart" className="flex items-center gap-3">
-                  <ShoppingCart className="h-5 w-5" />
+              <Button asChild variant="outline" className="w-full justify-start h-16 p-6 rounded-xl bg-transparent hover:bg-muted/50">
+                <Link href="/cart" className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-green-500/10 rounded-full flex items-center justify-center">
+                    <ShoppingCart className="h-6 w-6 text-green-600" />
+                  </div>
                   <div className="text-left">
-                    <div className="font-medium">View Cart</div>
-                    <div className="text-sm text-muted-foreground">Review items in your cart</div>
+                    <div className="font-semibold">View Cart</div>
+                    <div className="text-sm text-muted-foreground">Review items in cart</div>
                   </div>
                 </Link>
               </Button>
 
-              <Button asChild variant="outline" className="w-full justify-start h-auto p-4 bg-transparent">
-                <Link href="/products" className="flex items-center gap-3">
-                  <Package className="h-5 w-5" />
+              <Button asChild variant="outline" className="w-full justify-start h-16 p-6 rounded-xl bg-transparent hover:bg-muted/50">
+                <Link href="/products" className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center">
+                    <Gift className="h-6 w-6 text-blue-600" />
+                  </div>
                   <div className="text-left">
-                    <div className="font-medium">Continue Shopping</div>
-                    <div className="text-sm text-muted-foreground">Browse our latest products</div>
+                    <div className="font-semibold">Continue Shopping</div>
+                    <div className="text-sm text-muted-foreground">Discover new products</div>
                   </div>
                 </Link>
               </Button>
@@ -149,10 +180,13 @@ export default async function DashboardPage() {
           </Card>
 
           {/* Recent Orders */}
-          <Card>
+          <Card className="glass-effect border-0 shadow-lg">
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Recent Orders</CardTitle>
-              <Button asChild variant="ghost" size="sm">
+              <CardTitle className="text-2xl flex items-center gap-2">
+                <Clock className="h-6 w-6" />
+                Recent Orders
+              </CardTitle>
+              <Button asChild variant="ghost" size="sm" className="rounded-full">
                 <Link href="/orders">View All</Link>
               </Button>
             </CardHeader>
@@ -160,24 +194,27 @@ export default async function DashboardPage() {
               {recentOrders && recentOrders.length > 0 ? (
                 <div className="space-y-4">
                   {recentOrders.map((order) => (
-                    <div key={order.id} className="flex justify-between items-center p-3 border rounded-lg">
+                    <div key={order.id} className="flex justify-between items-center p-4 border rounded-xl hover:bg-muted/50 transition-colors">
                       <div>
-                        <p className="font-medium">#{order.id.slice(0, 8)}</p>
+                        <p className="font-semibold">#{order.id.slice(0, 8)}</p>
                         <p className="text-sm text-muted-foreground">
                           {order.order_items.length} items • {new Date(order.created_at).toLocaleDateString()}
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-medium">${order.total_amount.toFixed(2)}</p>
+                        <p className="font-bold text-lg">${order.total_amount.toFixed(2)}</p>
                         <p className="text-sm text-muted-foreground capitalize">{order.status}</p>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-6">
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 mx-auto mb-4 bg-muted/50 rounded-full flex items-center justify-center">
+                    <Package className="h-8 w-8 text-muted-foreground" />
+                  </div>
                   <p className="text-muted-foreground mb-4">No orders yet</p>
-                  <Button asChild size="sm">
+                  <Button asChild size="sm" className="rounded-full">
                     <Link href="/products">Start Shopping</Link>
                   </Button>
                 </div>
@@ -187,9 +224,9 @@ export default async function DashboardPage() {
         </div>
 
         {/* Sign Out */}
-        <div className="mt-8 pt-8 border-t">
+        <div className="mt-12 pt-8 border-t text-center">
           <form action={handleSignOut}>
-            <Button variant="outline" type="submit">
+            <Button variant="outline" type="submit" className="rounded-full px-8 bg-transparent">
               Sign Out
             </Button>
           </form>

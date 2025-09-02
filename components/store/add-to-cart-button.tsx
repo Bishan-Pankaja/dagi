@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { ShoppingCart } from "lucide-react"
+import { ShoppingCart, Check } from "lucide-react"
 
 interface AddToCartButtonProps {
   productId: string
@@ -14,6 +14,7 @@ interface AddToCartButtonProps {
 
 export function AddToCartButton({ productId, disabled, className }: AddToCartButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const [isAdded, setIsAdded] = useState(false)
   const router = useRouter()
 
   const handleAddToCart = async () => {
@@ -59,6 +60,10 @@ export function AddToCartButton({ productId, disabled, className }: AddToCartBut
         if (error) throw error
       }
 
+      // Show success state
+      setIsAdded(true)
+      setTimeout(() => setIsAdded(false), 2000)
+
       // Refresh the page to update cart count
       router.refresh()
     } catch (error) {
@@ -69,9 +74,22 @@ export function AddToCartButton({ productId, disabled, className }: AddToCartBut
   }
 
   return (
-    <Button onClick={handleAddToCart} disabled={disabled || isLoading} className={className}>
-      <ShoppingCart className="h-4 w-4 mr-2" />
-      {isLoading ? "Adding..." : "Add to Cart"}
+    <Button 
+      onClick={handleAddToCart} 
+      disabled={disabled || isLoading} 
+      className={`${className} transition-all duration-300 ${isAdded ? 'bg-green-500 hover:bg-green-500' : ''}`}
+    >
+      {isAdded ? (
+        <>
+          <Check className="h-4 w-4 mr-2" />
+          Added!
+        </>
+      ) : (
+        <>
+          <ShoppingCart className="h-4 w-4 mr-2" />
+          {isLoading ? "Adding..." : "Add to Cart"}
+        </>
+      )}
     </Button>
   )
 }
